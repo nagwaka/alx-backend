@@ -43,13 +43,20 @@ class Server:
         Return the appropriate page of the dataset based
         on pagination params
         """
-        assert type(page) == int and type(page_size) == int
-        assert page > 0 and page_size > 0
-        start, end = index_range(page, page_size)
-        data = self.dataset()
-        if start > len(data):
+        assert isinstance(
+                page, int
+                ) and page > 0, "Page must be an int greater than 0"
+        assert isinstance(
+                page_size, int
+                ) and page > 0, "Page size must be an int greater than 0"
+
+        start_index, end_index = index_range(page, page_size)
+        dataset = self.dataset()
+
+        if start_index >= len(dataset):
             return []
-        return data[start:end]
+
+        return dataset[start_index:end_index]
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
         """
