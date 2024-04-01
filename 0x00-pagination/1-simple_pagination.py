@@ -12,10 +12,12 @@ def index_range(page: int, page_size: int) -> Tuple[int, int]:
     """
     Return a tuple of size two containing a start index and an end index
     """
-    assert isinstance(page, int) and page > 0,
-    "Page must be an int greater than 0"
-    assert isinstance(page_size, int) and page > 0,
-    "Page size must be an int greater than 0"
+    assert isinstance(
+            page, int
+            ) and page > 0, "Page must be an int greater than 0"
+    assert isinstance(
+            page_size, int
+            ) and page > 0, "Page size must be an int greater than 0"
 
     start_index = (page - 1) * page_size
     end_index = start_index + page_size
@@ -47,10 +49,12 @@ class Server:
         Return the appropriate page of the dataset based
         on pagination params
         """
-        assert isinstance(page, int) and page > 0,
-        "Page must be an int greater than 0"
-        assert isinstance(page_size, int) and page > 0,
-        "Page size must be an int greater than 0"
+        assert isinstance(
+                page, int
+                ) and page > 0, "Page must be an int greater than 0"
+        assert isinstance(
+                page_size, int
+                ) and page > 0, "Page size must be an int greater than 0"
 
         start_index, end_index = index_range(page, page_size)
         dataset = self.dataset()
