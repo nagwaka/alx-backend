@@ -2,7 +2,7 @@
 """
 Mock logging in
 """
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, g
 from flask_babel import Babel
 from typing import Union, Dict
 
