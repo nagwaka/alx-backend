@@ -10,7 +10,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     """
-    Outputs a message
+    Home page
     """
     return render_template('0-index.html')
 
