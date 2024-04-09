@@ -21,8 +21,8 @@ app.config.from_object(Config)
 babel = Babel(app)
 
 
-@app.route('/')
-def get_index() -> str:
+@app.route('/', strict_slashes=False)
+def index() -> str:
     """
     Outputs a message
     """
