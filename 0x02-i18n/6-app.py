@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Mock logging in
+User locale
 """
 from flask import Flask, render_template, request, g
 from flask_babel import Babel
@@ -51,11 +51,16 @@ def before_request() -> None:
 @babel.localeselector
 def get_locale() -> str:
     """
-    Forces locale with URL parameter
+    Get user locale
     """
     locale = request.args.get('locale', '')
     if locale in app.config["LANGUAGES"]:
         return locale
+    if g.user and g.user['locale'] in app.config["LANGUAGES"]:
+        return g.user['locale']
+    header_locale = request.headers.get('locale', '')
+    if header_locale in app.config["LANGUAGES"]:
+        return header_locale
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
@@ -64,7 +69,7 @@ def index() -> str:
     """
     Home page
     """
-    return render_template('5-index.html')
+    return render_template('6-index.html')
 
 
 if __name__ == "__main__":
