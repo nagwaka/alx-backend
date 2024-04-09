@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-User locale
+Basic Flask app
 """
 from flask import Flask, render_template, request, g
-from flask_babel import Babel
+from flask_babel import Babel, format_datetime
 from typing import Union, Dict
+import pytz
 
 
 class Config:
@@ -53,15 +54,21 @@ def get_locale() -> str:
     """
     Get user locale
     """
-    locale = request.args.get('locale', '')
+    queries = request.query_string.decode('utf-8').split('&')
+    query_table = dict(map(
+        lambda x: (x if '=' in x else '{}='.format(x)).split('='),
+        queries,
+    ))
+    locale = query_table.get('locale', '')
     if locale in app.config["LANGUAGES"]:
         return locale
-    if g.user and g.user['locale'] in app.config["LANGUAGES"]:
-        return g.user['locale']
+    user_details = getattr(g, 'user', None)
+    if user_details and user_details['locale'] in app.config["LANGUAGES"]:
+        return user_details['locale']
     header_locale = request.headers.get('locale', '')
     if header_locale in app.config["LANGUAGES"]:
         return header_locale
-    return request.accept_languages.best_match(app.config["LANGUAGES"])
+    return app.config['BABEL_DEFAULT_LOCALE']
 
 
 @babel.timezoneselector
@@ -83,7 +90,7 @@ def index() -> str:
     """
     Home page
     """
-    return render_template('7-index.html')
+    return render_template('index.html')
 
 
 if __name__ == "__main__":
