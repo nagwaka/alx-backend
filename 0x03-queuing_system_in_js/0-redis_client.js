@@ -1,4 +1,5 @@
 #!/iusr/bin/node
+
 import { createClient } from 'redis';
 
 const client = createClient();
